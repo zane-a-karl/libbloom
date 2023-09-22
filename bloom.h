@@ -234,6 +234,26 @@ int bloom_merge(struct bloom * bloom_dest, struct bloom * bloom_src);
  */
 const char * bloom_version();
 
+
+/** ***************************************************************************
+ * Retrieve and store the indexes of a given bloom filter element.
+ *
+ * Upon return, the indexes holds the output of the hash function
+ * applied to the given element.
+ *
+ * Parameters:
+ * -----------
+ *     indexes - Pointer to an allocated array of length bloom->hashes.
+ *     buffer  - Pointer to buffer containing element.
+ *     len     - Size of 'buffer'.
+ *     bloom   - Pointer to an allocated struct bloom (see above).
+ *
+ * Return: none
+ *
+ */
+void bloom_get_indexes(unsigned long * indexes,
+		       void * element, unsigned long len, bloom_filter_t * bloom);
+
 #ifdef __cplusplus
 }
 #endif

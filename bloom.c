@@ -329,3 +329,17 @@ const char * bloom_version()
 {
   return MAKESTRING(BLOOM_VERSION);
 }
+
+
+void bloom_get_indexes(unsigned long * indexes,
+		       void * element, unsigned long len, bloom_filter_t * bloom)
+{
+    if (1 == bloom_check(bloom, element, len)) {
+	unsigned int a = murmurhash2(element, len, 0x9747b28c);
+	unsigned int b = murmurhash2(element, len, a);
+
+	for (unsigned long i = 0; i < bloom->hashes; i++) {
+	    indexes[i] = ((a + b*i) % bloom->bits) >> 3;
+	}
+    }
+}
